@@ -67,8 +67,6 @@ class CLI
     new_quiz.questions.each do |question|
       question.user_id = user.id
     end
-
-
     take_quiz
   end
 
@@ -76,7 +74,7 @@ class CLI
     @new_quiz.questions.each do |question|
       puts question.content
       question.display_answers
-      binding.pry
+      puts "Time to choose... (1-4)"
       user_input = Adapter.query_user
       question.stamp_answer_with_user_id(user_input, @user.id)
       binding.pry

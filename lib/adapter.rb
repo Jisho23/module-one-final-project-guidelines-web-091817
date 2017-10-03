@@ -5,7 +5,7 @@ URL = "https://opentdb.com/api.php?amount=1&type=multiple&"
       JSON.parse(raw_data)["results"][0] #data as hash, only returning results (which is an array of hash hence [0])
   end
 
-  def self.query_user
+  def self.query_user #this is an easy call method for and query to user. Tests run in local object
     ARGV.clear
     user_input = gets.chomp
   end

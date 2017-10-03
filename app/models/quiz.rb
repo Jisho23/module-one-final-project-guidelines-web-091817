@@ -18,7 +18,7 @@ class Quiz < ActiveRecord::Base
     (num).times { create_question }
   end
 
-  def display_questions
+  def display_questions #COMMENTED OUT / OUTDATED METHOD
     # #THIS IS THE METHOD THAT DOES THE QUIZZING: EACH ITERATION ASKS AND THEN STORES PUTS THE USER ID AS A STAMP ON THE ANSWER
     # self.questions.each do |question| #iterate through each question object that belongs to THIS instance of a quiz.
     #   puts question.content
@@ -32,7 +32,7 @@ class Quiz < ActiveRecord::Base
     while
       user_input = Adapter.query_user
       if valid_answer?(user_input) == false
-        "Give a numbered answer please."
+        puts "Give a numbered answer please."
       else
         break
       end
