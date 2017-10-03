@@ -10,32 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 4) do
+ActiveRecord::Schema.define(version: 8) do
 
   create_table "answers", force: :cascade do |t|
     t.string  "content"
     t.integer "question_id"
     t.integer "user_id"
-  end
-
-  create_table "questions", force: :cascade do |t|
-    t.string  "name"
-    t.string  "content"
-    t.integer "quiz_id"
-    t.integer "answer_id"
-  end
-
-  create_table "quizzes", force: :cascade do |t|
-    t.string "name"
     t.boolean "truthiness"
+    t.integer "number_identifier"
   end
 
   create_table "questions", force: :cascade do |t|
     t.string  "content"
     t.integer "quiz_id"
+    t.integer "user_id"
   end
 
   create_table "quizzes", force: :cascade do |t|
+    t.integer "user_id"
+  end
 
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+  end
 
 end

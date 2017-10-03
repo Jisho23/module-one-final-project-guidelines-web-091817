@@ -21,5 +21,5 @@ class Quiz < ActiveRecord::Base
       puts question.content
       question.display_answers
     end
-
+  end
 end
