@@ -44,9 +44,16 @@ class Question < ActiveRecord::Base
 
 
   def stamp_answer_with_user_id(user_answer, user_id)#stamps from 'take quiz' in CLI
-    users_answer = self.answers.find_by(:number_identifier == user_answer.to_i)
-    users_answer.user_id = user_id
-    users_answer.save
+    # users_answer = self.answers.find_by(:number_identifier == user_answer.to_i)
+    self.answers.each do |answer|
+      if answer.number_identifier == user_answer.to_i
+        answer.user_id = user_id
+        answer.save
+      end
+    end
+    # users_answer.user_id = user_id
+    # users_answer.save
+    # binding.pry
   end
 
 end

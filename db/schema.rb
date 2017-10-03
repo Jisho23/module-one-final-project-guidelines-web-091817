@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 11) do
+ActiveRecord::Schema.define(version: 12) do
 
   create_table "answers", force: :cascade do |t|
     t.string  "content"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 11) do
     t.integer "user_id"
     t.boolean "truthiness"
     t.integer "number_identifier"
+    t.integer "quiz_id"
   end
 
   create_table "questions", force: :cascade do |t|
