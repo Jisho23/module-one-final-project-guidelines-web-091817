@@ -1,7 +1,6 @@
-class CreateQuizzes < ActiveRecord::Migration[4.2]
+class CreateQuizzes < ActiveRecord::Migration
   def change
-    create_table :quizzes do |t|
-      t.string :name
+    create_table :quizzes do |t| #need to make certain of plural case (see filename)
       t.string :content
     end
   end
