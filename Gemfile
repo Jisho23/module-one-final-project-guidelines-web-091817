@@ -9,4 +9,8 @@ gem "require_all"
 gem "nokogiri"
 =======
 gem "rest-client"
+<<<<<<< HEAD
 >>>>>>> master
+=======
+gem "json"
+>>>>>>> joshs_branch

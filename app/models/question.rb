@@ -7,15 +7,19 @@ class Question < ActiveRecord::Base
 #hash of data passed in initialize)
 #it will have the "quiz id" set in the create_question method in quiz.rb
 
-  def initialize(question_hash)
-    @content = question_hash["question"]
-    correct_answer = Answer.new(question_hash["correct_answer"], true) #correct answer will always have the truthiness of true initialized
+  def create_answers(question_hash)
+    correct_answer = Answer.new
+    correct_answer.content = question_hash['correct_answer']
+    correct_answer.truthiness = true
     correct_answer.question_id = self.id
-    correct_answer.save #always save the answer!!!
-    question_hash['incorrect_answers'].each do |answer_text|
-      incorrect_answer = Answer.new(answer_text, false) #incorrect answer will always have the truthiness of false, initialized
+    correct_answer.save
+
+    question_hash['incorrect_answers'].each do |answer|
+      incorrect_answer = Answer.new
+      incorrect_answer.content = answer
+      incorrect_answer.truthiness = false
       incorrect_answer.question_id = self.id
-      incorrect_answer.save #always save the answer!!!
+      incorrect_answer.save
     end
   end
 
@@ -29,5 +33,11 @@ class Question < ActiveRecord::Base
       answer.number_indentifier = answer_number
       answer.save
     end
+  end
+
+  def create_correct_answer(answer)
+  end
+
+  def create_incorrect_answers(answer)
   end
 end
