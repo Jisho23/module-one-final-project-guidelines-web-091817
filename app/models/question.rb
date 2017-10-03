@@ -27,7 +27,6 @@ class Question < ActiveRecord::Base
   end
 
   def create_correct_answer(answer) #this method makes the correct answer, be alert of the local "correct answer" which should be like the local "correct_answer" in the create answers method.
-    binding.pry
     correct_answer = Answer.new
     correct_answer.content = answer
     correct_answer.truthiness = true

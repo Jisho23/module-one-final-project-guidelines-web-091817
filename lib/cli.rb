@@ -16,7 +16,7 @@ class CLI
     difficulty = pick_difficulty
     number_of_questions = pick_number_of_questions
     puts "Awesome! You chose difficulty #{difficulty}, with #{number_of_questions} questions."
-    make_quiz(number_of_questions)
+    make_quiz(difficulty, number_of_questions)
   end
 
   def pick_user
@@ -31,23 +31,24 @@ class CLI
   end
 
   def pick_difficulty
-    puts "Please choose your difficulty: 1. Easy. 2. Medium. 3. Hard. 4. Exit"
-    difficulty_level = gets.chomp
-    case difficulty_level
-    when "1"
-      "Easy"
-    when "2"
-      "Medium"
-    when "3"
-      "Hard"
-    when "Easter Egg"
-      puts "ASAMBI SANA SQUASH BANANA"
-      pick_difficulty
-    when "4"
-      exit
-    else
-      puts "Hmm, that isn't an option, pick again"
-      pick_difficulty
+    while true
+      puts "Please choose your difficulty: 1. Easy. 2. Medium. 3. Hard. 4. Exit"
+      difficulty_level = gets.chomp
+      case difficulty_level
+      when "1"
+        return "easy"
+      when "2"
+        return "medium"
+      when "3"
+        return "hard"
+      when "Easter Egg"
+        puts "ASAMBI SANA SQUASH BANANA"
+      when "4"
+        puts "COWARD!!!"
+        exit
+      else
+        puts "Hmm, that isn't an option, pick again"
+      end
     end
   end
 
@@ -56,12 +57,18 @@ class CLI
     number_of_questions = gets.chomp
   end
 
-
-  def make_quiz(number_of_questions)
+#makes entire quiz here, stamps questions with the @user.id
+  def make_quiz(difficulty, number_of_questions)
     @new_quiz = Quiz.create
     new_quiz.user_id = @user.id
+    new_quiz.difficulty = difficulty
     #how to add difficulty is on joshs branch
     new_quiz.create_questions_by_integer(number_of_questions.to_i)
+    new_quiz.questions.each do |question|
+      question.user_id = user.id
+    end
+    binding.pry
+
     take_quiz
   end
 
