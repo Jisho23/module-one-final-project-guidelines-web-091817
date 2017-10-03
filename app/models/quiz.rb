@@ -1,7 +1,7 @@
 class Quiz < ActiveRecord::Base
   belongs_to :user
   has_many :questions
-  has_many :answers, through: :questions
+  has_many :answers, through: :questions #does the questions table need an answer_id to make this connection work?
 
   #generate question objects that are associated to quiz by question_id
   def create_question
