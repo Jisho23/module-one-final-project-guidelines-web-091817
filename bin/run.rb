@@ -1,3 +1,3 @@
 require_relative '../config/environment'
 
-binding.pry
+CLI.new.welcome
