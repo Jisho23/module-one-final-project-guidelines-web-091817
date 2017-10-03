@@ -3,7 +3,7 @@ class Answer < ActiveRecord::Base
 
 #has values of truthiness (is it correct), text, question_id, and user_id
   def initialize(text, truthiness)
-    @text = text
+    @tcontent = text
     @truthiness = truthiness
   end
 
