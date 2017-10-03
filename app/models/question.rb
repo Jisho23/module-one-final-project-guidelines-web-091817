@@ -41,4 +41,13 @@ class Question < ActiveRecord::Base
     incorrect_answer.question_id = self.id
     incorrect_answer.save
   end
+
+#stamps from 'take quiz' in CLI
+  def stamp_answer_with_user_id(user_answer, user_id)
+    users_answer = self.answers.find_by(:number_identifier == user_answer.to_i)
+    binding.pry
+    users_answer.user_id = user_id
+    users_answer.save
+  end
+  
 end

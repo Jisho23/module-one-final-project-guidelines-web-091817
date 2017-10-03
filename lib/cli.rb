@@ -22,7 +22,7 @@ class CLI
   def pick_user
     puts "Let's find your records, or make a new username for you."
     puts "What's your name?"
-    input = gets.chomp
+    input = Adapter.query_user
     find_or_create_by(input)
   end
 
@@ -33,7 +33,7 @@ class CLI
   def pick_difficulty
     while true
       puts "Please choose your difficulty: 1. Easy. 2. Medium. 3. Hard. 4. Exit"
-      difficulty_level = gets.chomp
+      difficulty_level = Adapter.query_user
       case difficulty_level
       when "1"
         return "easy"
@@ -67,12 +67,20 @@ class CLI
     new_quiz.questions.each do |question|
       question.user_id = user.id
     end
-    binding.pry
+
 
     take_quiz
   end
 
   def take_quiz
+    @new_quiz.questions.each do |question|
+      puts question.content
+      question.display_answers
+      binding.pry
+      user_input = Adapter.query_user
+      question.stamp_answer_with_user_id(user_input, @user.id)
+      binding.pry
+    end
 
   end
 

@@ -19,13 +19,13 @@ class Quiz < ActiveRecord::Base
   end
 
   def display_questions
-    #THIS IS THE METHOD THAT DOES THE QUIZZING: EACH ITERATION ASKS AND THEN STORES PUTS THE USER ID AS A STAMP ON THE ANSWER
-    self.questions.each do |question| #iterate through each question object that belongs to THIS instance of a quiz.
-      puts question.content
-      question.display_answers
-      users_answer = get_users_answer
-      #TO ADD: CORRESPOND USER ANSWER TO CORRECT answer.number_identifier
-    end
+    # #THIS IS THE METHOD THAT DOES THE QUIZZING: EACH ITERATION ASKS AND THEN STORES PUTS THE USER ID AS A STAMP ON THE ANSWER
+    # self.questions.each do |question| #iterate through each question object that belongs to THIS instance of a quiz.
+    #   puts question.content
+    #   question.display_answers
+    #   users_answer = get_users_answer
+    #   #TO ADD: CORRESPOND USER ANSWER TO CORRECT answer.number_identifier
+    # end
   end
 
   def get_users_answer
