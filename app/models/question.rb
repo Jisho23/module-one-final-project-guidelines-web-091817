@@ -8,18 +8,9 @@ class Question < ActiveRecord::Base
 #it will have the "quiz id" set in the create_question method in quiz.rb
 
   def create_answers(question_hash)
-    correct_answer = Answer.new
-    correct_answer.content = question_hash['correct_answer']
-    correct_answer.truthiness = true
-    correct_answer.question_id = self.id
-    correct_answer.save
-
+    correct_answer =  create_correct_answer(question_hash['correct_answer'])
     question_hash['incorrect_answers'].each do |answer|
-      incorrect_answer = Answer.new
-      incorrect_answer.content = answer
-      incorrect_answer.truthiness = false
-      incorrect_answer.question_id = self.id
-      incorrect_answer.save
+      incorrect_answer = create_incorrect_answers(answer)
     end
   end
 
@@ -30,14 +21,25 @@ class Question < ActiveRecord::Base
       #assign number_identifier to check user's answers
       answer_number += 1
       puts "#{answer_number}. #{answer.content}"
-      answer.number_indentifier = answer_number
+      answer.number_identifier = answer_number
       answer.save
     end
   end
 
-  def create_correct_answer(answer)
+  def create_correct_answer(answer) #this method makes the correct answer, be alert of the local "correct answer" which should be like the local "correct_answer" in the create answers method.
+    binding.pry
+    correct_answer = Answer.new
+    correct_answer.content = answer
+    correct_answer.truthiness = true
+    correct_answer.question_id = self.id
+    correct_answer.save
   end
 
-  def create_incorrect_answers(answer)
+  def create_incorrect_answers(answer) #this method makes the correct answer, be alert of the local "correct answer" which should be like the local "correct_answer" in the create answers method
+    incorrect_answer = Answer.new
+    incorrect_answer.content = answer
+    incorrect_answer.truthiness = false
+    incorrect_answer.question_id = self.id
+    incorrect_answer.save
   end
 end
