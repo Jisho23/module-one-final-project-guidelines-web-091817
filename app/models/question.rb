@@ -21,7 +21,7 @@ class Question < ActiveRecord::Base
 
 #randomly displays all the question's text with a number assignment
   def display_answers
-    answer_number = 0
+    answer_number = 0 #set our answer # counter to set answers' number_identifier
     self.answers.shuffle.each do |answer|
       #assign number_identifier to check user's answers
       answer_number += 1
