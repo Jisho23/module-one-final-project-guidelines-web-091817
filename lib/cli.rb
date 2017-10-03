@@ -63,7 +63,7 @@ class CLI
     new_quiz.user_id = @user.id
     new_quiz.difficulty = difficulty
     #how to add difficulty is on joshs branch
-    new_quiz.create_questions_by_integer(number_of_questions.to_i)
+    new_quiz.create_questions_by_integer(number_of_questions)
     new_quiz.questions.each do |question|
       question.user_id = user.id
     end
