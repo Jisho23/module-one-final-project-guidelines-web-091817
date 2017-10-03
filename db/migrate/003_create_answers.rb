@@ -4,6 +4,8 @@ class CreateAnswers < ActiveRecord::Migration[4.2]
       t.string :content
       t.integer :question_id
       t.integer :user_id
+      t.boolean :truthiness
+      t.integer :answer_number
     end
   end
 end
