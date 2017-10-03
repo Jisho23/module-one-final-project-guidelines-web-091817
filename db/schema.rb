@@ -16,17 +16,6 @@ ActiveRecord::Schema.define(version: 4) do
     t.string  "content"
     t.integer "question_id"
     t.integer "user_id"
-  end
-
-  create_table "questions", force: :cascade do |t|
-    t.string  "name"
-    t.string  "content"
-    t.integer "quiz_id"
-    t.integer "answer_id"
-  end
-
-  create_table "quizzes", force: :cascade do |t|
-    t.string "name"
     t.boolean "truthiness"
   end
 
@@ -36,6 +25,11 @@ ActiveRecord::Schema.define(version: 4) do
   end
 
   create_table "quizzes", force: :cascade do |t|
+    t.string "content"
+  end
 
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+  end
 
 end

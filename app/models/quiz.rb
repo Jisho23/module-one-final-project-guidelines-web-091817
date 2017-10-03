@@ -6,7 +6,10 @@ class Quiz < ActiveRecord::Base
   #generate question objects that are associated to quiz by question_id
   def create_question
     question_hash = Adapter.quiz_api
-    new_question = Question.new(question_hash)
+    new_question = Question.new
+    new_question.save #save now so we can store the question's id in the answer by calling self.id
+    new_question.content = question_hash['question']
+    new_question.create_answers(question_hash)
     new_question.quiz_id = self.id
     new_question.save
   end
@@ -20,4 +23,6 @@ class Quiz < ActiveRecord::Base
       puts question.content
       question.display_answers
     end
+  end
+
 end
