@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 4) do
 
   create_table "quizzes", force: :cascade do |t|
     t.string "name"
+<<<<<<< HEAD
     t.string "content"
   end
 
@@ -34,4 +35,17 @@ ActiveRecord::Schema.define(version: 4) do
     t.string "name"
   end
 
+=======
+    t.boolean "truthiness"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string  "content"
+    t.integer "quiz_id"
+  end
+
+  create_table "quizzes", force: :cascade do |t|
+
+
+>>>>>>> master
 end
