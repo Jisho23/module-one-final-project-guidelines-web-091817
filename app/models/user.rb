@@ -1,4 +1,4 @@
 class User < ActiveRecord::Base
-  has_many :votes
-  has_many :quotes, through: :votes
+  has_many :answers
+  has_many :questions, through: :answers
 end
