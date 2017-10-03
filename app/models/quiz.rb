@@ -13,5 +13,5 @@ class Quiz < ActiveRecord::Base
   def create_questions_by_integer(num)
     (num).times { create_question }
   end
->>>>>>> joshs_branch
+
 end
