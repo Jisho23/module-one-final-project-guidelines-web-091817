@@ -85,7 +85,6 @@ class CLI
       question.stamp_answer_with_user_id(user_input, @user.id)
       #stamp answers with quiz id
       question.answers.each { |answer| answer.quiz_id = @new_quiz.id }
-      binding.pry
     end
     binding.pry
   end
