@@ -14,9 +14,11 @@ class CLI
     @user = pick_user #instance =variable for use later.
     puts "Our trivia game is basically the best thing ever. Ever"
     difficulty = pick_difficulty #variable difficulty to use in interpolation, method below modifies numerical input to easy/medium/hard
-    number_of_questions = pick_number_of_questions #ditto above, chooses how many questions the make_quiz.create_questions_by_integer method will iterate
+    @number_of_questions = pick_number_of_questions #ditto above, chooses how many questions the make_quiz.create_questions_by_integer method will iterate
     puts "Awesome! You chose difficulty #{difficulty}, with #{number_of_questions} questions."
     make_quiz(difficulty, number_of_questions)
+    take_quiz
+    did_you_win
   end
 
   def pick_user
@@ -67,12 +69,11 @@ class CLI
     @new_quiz = Quiz.create
     new_quiz.user_id = @user.id
     new_quiz.difficulty = difficulty
+    #how to add difficulty is on joshs branch
     new_quiz.create_questions_by_integer(number_of_questions)
     new_quiz.questions.each do |question|
       question.user_id = user.id
     end
-
-    take_quiz
   end
 
   def take_quiz
@@ -82,16 +83,18 @@ class CLI
       puts "Time to choose... (1-4)"
       user_input = Adapter.query_user
       question.stamp_answer_with_user_id(user_input, @user.id)
-      question.answers.each {|answer| answer.quiz_id = @new_quiz.id}
+      #stamp answers with quiz id
+      question.answers.each { |answer| answer.quiz_id = @new_quiz.id }
     end
     binding.pry
   end
 
   #-------- post-game stats
 
-  def did_you_win?
-    user_answer = new_quiz.answers.where(:user_id == user.id)
-    puts "You got #{user_answer} out of #{number_of_questions} questions right!"
+  def did_you_win
+    user_answer = new_quiz.answers.where(user_id: user.id, truthiness: true)
+    puts "You got #{user_answer.size} out of #{number_of_questions} questions right!"
+    winng?(user_answer)
   end
 
   def winning?
