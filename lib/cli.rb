@@ -94,7 +94,7 @@ class CLI
   def did_you_win
     user_answer = new_quiz.answers.where(user_id: user.id, truthiness: true)
     puts "You got #{user_answer.size} out of #{number_of_questions} questions right!"
-    winng?(user_answer)
+    winning?(user_answer)
   end
 
   def winning?
