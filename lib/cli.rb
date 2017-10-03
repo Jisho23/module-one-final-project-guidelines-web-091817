@@ -82,6 +82,7 @@ class CLI
       puts "Time to choose... (1-4)"
       user_input = Adapter.query_user
       question.stamp_answer_with_user_id(user_input, @user.id)
+      question.answers.each {|answer| answer.quiz_id = @new_quiz.id}
     end
     binding.pry
   end
