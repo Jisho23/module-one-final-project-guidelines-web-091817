@@ -61,7 +61,7 @@ class CLI
     @new_quiz = Quiz.create
     binding.pry
     new_quiz.user_id = @user.id
-    #how to add dificluty is on joshs branch
+    #how to add difficulty is on joshs branch
     new_quiz.create_questions_by_integer(number_of_questions.to_i)
     take_quiz
   end
