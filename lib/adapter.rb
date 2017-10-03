@@ -5,7 +5,3 @@ class Adapter
       JSON.parse(raw_data)["results"][0] #data as hash, only returning results (which is an array of hash hence [0])
   end
 end
-
-
-
-#----------------
