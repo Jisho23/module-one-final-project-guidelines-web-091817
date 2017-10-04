@@ -7,3 +7,6 @@ gem "pry"
 gem "require_all"
 gem "rest-client"
 gem "json"
+gem "catpix"
+gem 'tco'
+gem 'rmagick'

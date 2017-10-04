@@ -167,6 +167,12 @@ class CLI
 
   def did_you_win
     user_answers = user.correct_answers_by_quiz(new_quiz)
+    correct_answers = user.correct_answers_by_quiz(new_quiz).length
+    if  correct_answers == 0
+      Images.dense
+    elsif correct_answers == new_quiz.questions.length
+      Images.badass
+    end
     puts "You got #{user.correct_answers_by_quiz(new_quiz).length} out of #{number_of_questions} questions right!"
     winning?
   end
