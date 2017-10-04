@@ -134,7 +134,7 @@ class CLI
 
 #starting method after pick_user. This is the main screen for choosing options, and 'Back to start' elsewhere returns you here
   def choose_next_steps
-    puts "What do you want to do? 1. PLAYGAMEPLAYGAMEPLAYGAME! 2. Check Stats. 3. Change User. 4. Check Leaderboard 5. Exit 7. treestars"
+    puts "What do you want to do? 1. PLAYGAMEPLAYGAMEPLAYGAME! 2. Check Stats. 3. Change User. 4. Check Leaderboard 5. Exit"
     user_input = Adapter.query_user
     case user_input
     when "1"
@@ -151,7 +151,7 @@ class CLI
     when "6"
       puts "I AM A BANANA"
     when "7"
-      Image.tree_stars
+      Images.treestar
     else
       puts "Not an option, please pick again"
     end
