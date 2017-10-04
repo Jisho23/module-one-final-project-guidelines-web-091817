@@ -46,7 +46,7 @@ class Question < ActiveRecord::Base
     while
       user_input = Adapter.query_user #abtracted out gets.chomp
       if valid_answer?(user_input) == false #checks below to make sure the input is a valid choice
-        puts "Give a numbered answer please."
+        puts "Really? The instructions aren't that cryptic."
       else
         break
       end
