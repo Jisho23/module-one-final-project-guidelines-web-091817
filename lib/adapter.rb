@@ -27,6 +27,7 @@ URL = "https://opentdb.com/api.php?amount=1&type=multiple&difficulty="
   def self.delete_quotes(string)
     string = string.gsub(/&quot;/, "\"")
     string = string.gsub(/&#039;/, "\'")
+    string = string.gsub(/&rsquo;/, "\'")
   end
 
 end
