@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 12) do
 
   create_table "quizzes", force: :cascade do |t|
     t.integer "user_id"
-    t.        "difficulty"
+    t.string  "difficulty"
   end
 
   create_table "users", force: :cascade do |t|

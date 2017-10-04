@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   def average_by_quiz(quiz)
     correct_answers_by_quiz = self.correct_answers_by_quiz(quiz).length
     quiz_questions = quiz.questions.length
-    average = calculate_average(correct_answers_in_quiz, quiz_questions)
+    average = calculate_average(correct_answers_by_quiz, quiz_questions)
   end
 
 # handy method to calculate the average of correct answers versus total answers

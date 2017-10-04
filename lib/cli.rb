@@ -109,24 +109,25 @@ class CLI
   #-------- post-game stats
 
   def did_you_win
-    user_answer = new_quiz.answers.where(user_id: user.id, truthiness: true)
-    puts "You got #{user_answer.size} out of #{number_of_questions} questions right!"
+    user_answers = user.correct_answers_by_quiz(new_quiz)
+    puts "You got #{user.correct_answers_by_quiz(new_quiz).length} out of #{number_of_questions} questions right!"
     winning?
+    binding.pry
 
   end
 
   def winning?
-    all_user_answers = Answer.all.where(user_id: User.ids) #all answers
-    correct_user_answers = all_user_answers.where(truthiness: true) #all correct answers
-    percentage = (correct_user_answers.count.to_f/all_user_answers.count.to_f)*100 #percentage correct answers out of all answers
-    puts "All time, you've answered #{correct_user_answers.count} correct out of #{all_user_answers.count} total. That's #{'%.2f' % percentage}%. That's...yeah. You know."
-    #the little douchebag '%.2F' % , with quotes, is how to round off a float to 2 decimal places.
+    puts "All time, you've answered #{user.correct_answers.size} correct out of #{user.answers.size} total. That's #{user.total_average}%. That's...yeah. You know."
   end
 
-  def difficulty_stats(difficulty) #these dont work, and I want them to.
-    Quiz.all.where(difficulty: "#{difficulty.downcase}")
-    Quiz.all.where(difficulty: "medium", User.all.id: user_id) #Im trying to grab all quizs of a difficulty for a specific user.
-    binding.pry
+  def difficulty_stats(difficulty) #difficulty is a valid string of 'easy', 'medium', or 'hard' (DOWNCASE!!!)
+    quizzes_by_difficulty = Quiz.all.where(difficulty: difficulty)
+    total_average = 0
+    quizzes_by_difficulty.each do |quiz|
+      average = @user.average_by_quiz(quiz)
+      total_average += average
+    end
+    final_average = total_average / quizzes_by_difficulty.length
   end
 
   def stats
