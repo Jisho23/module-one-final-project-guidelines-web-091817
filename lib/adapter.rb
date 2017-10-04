@@ -10,4 +10,8 @@ URL = "https://opentdb.com/api.php?amount=1&type=multiple&"
     user_input = gets.chomp
   end
 
+  def self.check_for_zero?(int)
+    int == 0
+  end
+
 end

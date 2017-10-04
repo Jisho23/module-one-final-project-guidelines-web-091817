@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
     correct_answers = self.correct_answers.length #length of correct_answers array for this user instance
     all_answers = self.answers.length #length of all answers array for this user instance
     average = calculate_average(correct_answers, all_answers) #uses calculate average method below to get average percentage of questions answerted correctly
+
   end
 
 # creates the average based on a quiz argument
@@ -29,10 +30,18 @@ class User < ActiveRecord::Base
   end
 
 # handy method to calculate the average of correct answers versus total answers
-  def calculate_average(correct_answers, total_answers) #this is an average. uses floats to get decimals, *100 because thats what a percentage is, and converts to an integer. '%.2f' % to round the float off to 2 decimal places 
-    average = (correct_answers.to_f * 100) / (total_answers.to_f * 100)
-    average = average * 100
-    average.to_i
+  def calculate_average(correct_answers, total_answers)
+     #this is an average. uses floats to get decimals, *100 because thats what a percentage is, and converts to an integer. '%.2f' % to round the float off to 2 decimal places
+     binding.pry
+    if Adapter.check_for_zero?(total_answers) == true
+      puts "You haven't taken any quizzes!!!"
+      return -1
+    else
+      average = (correct_answers.to_f * 100) / (total_answers.to_f * 100)
+      average = average * 100
+      return average.to_i
+    end
+
   end
 
 end

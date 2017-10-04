@@ -7,18 +7,19 @@ class CLI
     puts "ARE"
     puts "   YOU"
     puts "      WORTHY?"
-    start_game #run the start_game method
+    pick_user
   end
 
   def start_game
-    @user = pick_user #instance = variable for use later.
     puts "Our trivia game is basically the best thing ever. Ever"
     difficulty = pick_difficulty #variable difficulty to use in interpolation, method below modifies numerical input to easy/medium/hard
     @number_of_questions = pick_number_of_questions #ditto above, chooses how many questions the make_quiz.create_questions_by_integer method will iterate
     puts "Awesome! You chose difficulty #{difficulty}, with #{number_of_questions} questions."
     make_quiz(difficulty, number_of_questions)
     take_quiz
+    puts "Congratulations! Or, you know, not, if you failed hard."
     did_you_win
+    choose_next_steps
   end
 
   def pick_user
@@ -29,14 +30,15 @@ class CLI
     if input == "3.14159"
       delete_user
     else
-      find_or_create_by(input)
+      @user = find_or_create_by(input)
     end
+    choose_next_steps
   end
 
   def delete_user
     puts "What user do you need to delete? Don't be an asshole. Only delete your own records"
     input = Adapter.query_user
-    puts "Hint: There is an Easter Egg. But where.....?"
+    puts "Hint: There are Easter Eggs. But where.....?"
     name_id_to_delete = User.find_by(name: input).id
     User.delete(name_id_to_delete)
     pick_user
@@ -122,6 +124,47 @@ class CLI
 
   #-------- post-game stats
 
+  def choose_next_steps
+    puts "What do you want to do? 1. PLAYGAMEPLAYGAMEPLAYGAME! 2. Check Stats. 3. Change User. 4. Check Leaderboard"
+    user_input = Adapter.query_user
+    case user_input
+    when "1"
+      start_game
+    when "2"
+      user_stats
+    when "3"
+      pick_user
+      start_game
+    when "4"
+      User_stats.leaderboard
+    when "5"
+      puts "I AM A BANANA"
+    else
+      puts "Not an option, please pick again"
+    end
+    choose_next_steps
+  end
+
+  def user_stats
+    puts "What stats would you like to see?"
+    puts "1. All time average. 2. Statistics by difficulty. 3. Back to Start"
+    user_input = Adapter.query_user
+    case user_input
+    when "1"
+      if user.total_average < 0
+        puts "Your total average over all quizzes is #{user.total_average}%!"
+      end
+    when "2"
+      difficulty_stats('easy')
+      difficulty_stats('medium')
+      difficulty_stats('hard')
+    when "3"
+      choose_next_steps
+    end
+    user_stats
+  end
+
+
   def did_you_win
     user_answers = user.correct_answers_by_quiz(new_quiz)
     puts "You got #{user.correct_answers_by_quiz(new_quiz).length} out of #{number_of_questions} questions right!"
@@ -139,12 +182,15 @@ class CLI
       average = @user.average_by_quiz(quiz)
       total_average += average
     end
-    final_average = total_average / quizzes_by_difficulty.length
-    puts "Based on #{difficulty} quizzes, you have an average of #{final_average}%!"
+    if Adapter.check_for_zero?(quizzes_by_difficulty.length) != true
+      final_average = total_average / quizzes_by_difficulty.length
+      puts "Based on #{difficulty} quizzes, you have an average of #{final_average}%!"
+      return
+    else
+      puts "You haven't taken any quizzes of #{difficulty} difficulty!"
+    end
   end
 
-  def stats
-  end
 end
 
 
