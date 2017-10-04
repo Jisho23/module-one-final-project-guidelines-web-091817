@@ -11,7 +11,7 @@ class CLI
   end
 
   def start_game
-    @user = pick_user #instance =variable for use later.
+    @user = pick_user #instance = variable for use later.
     puts "Our trivia game is basically the best thing ever. Ever"
     difficulty = pick_difficulty #variable difficulty to use in interpolation, method below modifies numerical input to easy/medium/hard
     @number_of_questions = pick_number_of_questions #ditto above, chooses how many questions the make_quiz.create_questions_by_integer method will iterate
@@ -69,13 +69,15 @@ class CLI
   end
 
   def pick_number_of_questions # simple method, asks how many questions theyd like the quiz to be.
-    puts "How many questions would you like? (Enter a number, 1-20)"
-    number_of_questions = Adapter.query_user
-    if !number_of_questions.to_i.between?(1,20)
-      puts "Sorry, incorrect input."
-      pick_number_of_questions
+    while true
+      puts "How many questions would you like? (Enter a number, 1-20)"
+      number_of_questions = Adapter.query_user.to_i
+      if number_of_questions.between?(1,20)
+        return number_of_questions
+      else
+        puts "You really want to take a trivia quiz, when you can't follow simple instructions?"
+      end
     end
-    return number_of_questions.to_i
   end
 
 #makes entire quiz here, stamps questions with the @user.id
@@ -112,7 +114,6 @@ class CLI
     user_answers = user.correct_answers_by_quiz(new_quiz)
     puts "You got #{user.correct_answers_by_quiz(new_quiz).length} out of #{number_of_questions} questions right!"
     winning?
-    binding.pry
 
   end
 
