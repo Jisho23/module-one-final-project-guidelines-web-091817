@@ -1,5 +1,4 @@
 class User_stats
-
 #simple method to display a leaderboard
   def self.leaderboard
     User.all.each do |user|

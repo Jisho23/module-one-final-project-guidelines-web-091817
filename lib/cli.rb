@@ -7,12 +7,13 @@ class CLI
     puts "ARE"
     puts "   YOU"
     puts "      WORTHY?"
-    pick_user
+    pick_user #start by choosing a user
   end
 
+#main run program. takes in difficulty and number of questions from user, makes_quiz with those parameters, take_quiz gathering user answers, and displays ending results.
   def start_game
     puts "Our trivia game is basically the best thing ever. Ever"
-    difficulty = pick_difficulty #variable difficulty to use in interpolation, method below modifies numerical input to easy/medium/hard
+    difficulty = pick_difficulty #variable 'difficulty' to use in interpolation, method below modifies numerical input to easy/medium/hard
     @number_of_questions = pick_number_of_questions #ditto above, chooses how many questions the make_quiz.create_questions_by_integer method will iterate
     puts "Awesome! You chose difficulty #{difficulty}, with #{number_of_questions} questions."
     make_quiz(difficulty, number_of_questions)
@@ -22,6 +23,7 @@ class CLI
     choose_next_steps
   end
 
+#finds or creates new user, and has a way to delete a user from the table
   def pick_user
     puts "Let's find your records, or make a new username for you."
     puts "If you need to remove a user, enter pi to 5 decimal places"
@@ -35,6 +37,7 @@ class CLI
     choose_next_steps
   end
 
+#delet user method. takes in a name, find the user.id associated with that name, and deletes it from the table. returns you to pick_user
   def delete_user
     puts "What user do you need to delete? Don't be an asshole. Only delete your own records"
     input = Adapter.query_user
@@ -44,10 +47,12 @@ class CLI
     pick_user
   end
 
+#finds a user from the table by name, or creates a new one if none found.
   def find_or_create_by(name)
     User.find_or_create_by(name: name)
   end
 
+#Chooses difficulty for the quiz being made. Exit removes you from the game.
   def pick_difficulty
     while true #I wanted to call the function again if an improper inpiut was entered, but the while loop is better for functionality.
       puts "Please choose your difficulty: 1. Easy. 2. Medium. 3. Hard. 4. Exit"
@@ -70,7 +75,8 @@ class CLI
     end
   end
 
-  def pick_number_of_questions # simple method, asks how many questions theyd like the quiz to be.
+# simple method, asks how many questions theyd like the quiz to have.
+  def pick_number_of_questions
     while true
       puts "How many questions would you like? (Enter a number, 1-20)"
       number_of_questions = Adapter.query_user.to_i
@@ -95,6 +101,7 @@ class CLI
     end
   end
 
+#displays questions and answer choices, takes user input, sets user_id for question and answers to user.id
   def take_quiz
     @new_quiz.questions.each do |question|
       puts question.content
@@ -110,6 +117,7 @@ class CLI
     end
   end
 
+#verifies that the user entered a valid input.
   def question_input_valid?(user_input)
     if user_input.to_i > 4
       puts "There aren't that many answers! Between 1-4 please..."
@@ -118,12 +126,13 @@ class CLI
       puts "Are you even trying?"
       false
     else user_input.to_i.between?(1, 4)
-       true
+      true
     end
   end
 
   #-------- post-game stats
 
+#starting method after pick_user. This is the main screen for choosing options, and 'Back to start' elsewhere returns you here
   def choose_next_steps
     puts "What do you want to do? 1. PLAYGAMEPLAYGAMEPLAYGAME! 2. Check Stats. 3. Change User. 4. Check Leaderboard 5. Exit 7. treestars"
     user_input = Adapter.query_user
