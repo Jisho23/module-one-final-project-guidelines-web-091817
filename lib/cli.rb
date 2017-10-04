@@ -145,27 +145,6 @@ class CLI
     choose_next_steps
   end
 
-  # def check_stats
-  #   puts "Oooh, stat-ily stats"
-  #   puts "What would you like to see? 1. Leaderboard. 2. Your statistics. 3. Play again 4. Back to start"
-  #   user_input = Adapter.query_user
-  #   case user_input
-  #   when "1"
-  #     User_stats.leaderboard
-  #   when "2"
-  #     user_stats
-  #   when "3"
-  #     start_game
-  #   when "4"
-  #     choose_next_steps
-  #   when "5"
-  #     puts "I AM A BANANA"
-  #   else
-  #     puts "Not an option, please pick again"
-  #   end
-  #   check_stats
-  # end
-
   def user_stats
     puts "What stats would you like to see?"
     puts "1. All time average. 2. Statistics by difficulty. 3. Back to Start"
