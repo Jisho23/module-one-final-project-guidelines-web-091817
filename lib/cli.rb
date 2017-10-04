@@ -69,10 +69,12 @@ class CLI
     @new_quiz = Quiz.create
     new_quiz.user_id = @user.id
     new_quiz.difficulty = difficulty
+    new_quiz.save
     #how to add difficulty is on joshs branch
     new_quiz.create_questions_by_integer(number_of_questions)
     new_quiz.questions.each do |question|
       question.user_id = user.id
+      question.save
     end
   end
 
@@ -84,9 +86,11 @@ class CLI
       user_input = Adapter.query_user
       question.stamp_answer_with_user_id(user_input, @user.id)
       #stamp answers with quiz id
-      question.answers.each { |answer| answer.quiz_id = @new_quiz.id }
     end
-    binding.pry
+    new_quiz.answers.each do |answer|
+      answer.quiz_id = @new_quiz.id
+      answer.save
+    end
   end
 
   #-------- post-game stats
@@ -94,7 +98,7 @@ class CLI
   def did_you_win
     user_answer = new_quiz.answers.where(user_id: user.id, truthiness: true)
     puts "You got #{user_answer.size} out of #{number_of_questions} questions right!"
-    winning?(user_answer)
+    binding.pry
   end
 
   def winning?
@@ -102,13 +106,8 @@ class CLI
     puts ""
   end
 
-  def user_stats
-    #things like overall percentage, by quiz (>75%, say), and by question number. multiple methods, probably
-
+  def stats
   end
-
-
-
 end
 
 
