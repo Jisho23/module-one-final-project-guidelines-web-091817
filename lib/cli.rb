@@ -23,9 +23,23 @@ class CLI
 
   def pick_user
     puts "Let's find your records, or make a new username for you."
+    puts "If you need to remove a user, enter pi to 5 decimal places"
     puts "What's your name?"
     input = Adapter.query_user
-    find_or_create_by(input)
+    if input == "3.14159"
+      delete_user
+    else
+      find_or_create_by(input)
+    end
+  end
+
+  def delete_user
+    puts "What user do you need to delete? Don't be an asshole. Only delete your own records"
+    input = Adapter.query_user
+    puts "Hint: There is an Easter Egg"
+    name_id_to_delete = User.find_by(name: input).id
+    User.delete(name_id_to_delete)
+    pick_user
   end
 
   def find_or_create_by(name)
@@ -69,7 +83,7 @@ class CLI
     @new_quiz = Quiz.create
     new_quiz.user_id = @user.id
     new_quiz.difficulty = difficulty
-    #how to add difficulty is on joshs branch
+    new_quiz.save #ADDED THIS IN TO SAVE QUIZZES. user_id and difficulty werent getting kept otherwise (all nil)
     new_quiz.create_questions_by_integer(number_of_questions)
     new_quiz.questions.each do |question|
       question.user_id = user.id
@@ -86,7 +100,6 @@ class CLI
       #stamp answers with quiz id
       question.answers.each { |answer| answer.quiz_id = @new_quiz.id }
     end
-    binding.pry
   end
 
   #-------- post-game stats
@@ -94,12 +107,20 @@ class CLI
   def did_you_win
     user_answer = new_quiz.answers.where(user_id: user.id, truthiness: true)
     puts "You got #{user_answer.size} out of #{number_of_questions} questions right!"
-    winning?(user_answer)
+    winning?
   end
 
   def winning?
-    #output how many questions you got right, and how many total questions there were
-    puts ""
+    all_user_answers = Answer.all.where(user_id: User.ids) #all answers
+    correct_user_answers = all_user_answers.where(truthiness: true) #all correct answers
+    percentage = (correct_user_answers.count.to_f/all_user_answers.count.to_f)*100 #percentage correct answers out of all answers
+    puts "All time, you've answered #{correct_user_answers.count} correct out of #{all_user_answers.count} total. That's #{'%.2f' % percentage}%. That's...yeah. You know."
+    #the little douchebag '%.2F', with quotes, is how to round off a float to 2 decimal places.
+  end
+
+  def difficulty_stats(difficulty)
+    Quiz.all.where(difficulty: "#{difficulty.downcase}")
+    binding.pry
   end
 
   def user_stats
