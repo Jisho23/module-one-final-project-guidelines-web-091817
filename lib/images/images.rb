@@ -8,8 +8,8 @@ class Image
 
   def self.tree_stars
     Catpix::print_image "./lib/images/dVgfr.jpg",
-  :limit_x => 1.0,
-  :limit_y => 0
+  :limit_x => 0.5,
+  :limit_y => 0.5
   # :center_x => true,
   # :center_y => true,
   # :bg => "white",

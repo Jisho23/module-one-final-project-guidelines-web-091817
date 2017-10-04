@@ -8,7 +8,7 @@ class Answer < ActiveRecord::Base
       puts "Correct! But that was an easy question."
       return true
     else
-      puts "WRONG!!!!!!!!"
+      Images.wrong
       return false
     end
   end
