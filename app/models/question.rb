@@ -44,16 +44,19 @@ class Question < ActiveRecord::Base
 
 
   def stamp_answer_with_user_id(user_answer, user_id)#stamps from 'take quiz' in CLI
-    # users_answer = self.answers.find_by(:number_identifier == user_answer.to_i)
-    self.answers.each do |answer|
-      if answer.number_identifier == user_answer.to_i
-        answer.user_id = user_id
-        answer.save
-      end
+    chosen_answer = self.answers.find_by(number_identifier: user_answer)
+    chosen_answer.user_id = user_id
+    chosen_answer.save
+
+    if chosen_answer.right_or_wrong == false #checks if the answer was right or wrong (called on answer choice) then shows right answer for the question (called on self)
+      self.show_right_answer
     end
-    # users_answer.user_id = user_id
-    # users_answer.save
-    # binding.pry
+  end
+
+# simple method that shows the right answer, called on a question object
+  def show_right_answer
+    correct_answer = self.answers.find_by(truthiness: true)
+    puts "For reference the right answer was #{correct_answer.content}... dummy!"
   end
 
 end

@@ -96,13 +96,29 @@ class CLI
       puts question.content
       question.display_answers
       puts "Time to choose... (1-4)"
-      user_input = Adapter.query_user
+      valid_input = false
+      while valid_input == false
+        user_input = Adapter.query_user
+        valid_input = question_input_valid?(user_input)
+      end
       question.stamp_answer_with_user_id(user_input, @user.id)
       #stamp answers with quiz id
     end
     new_quiz.answers.each do |answer|
       answer.quiz_id = @new_quiz.id
       answer.save
+    end
+  end
+
+  def question_input_valid?(user_input)
+    if user_input.to_i > 4
+      puts "There aren't that many answers! Between 1-4 please..."
+      false
+    elsif user_input.to_i < 1
+      puts "Are you even trying?"
+      false
+    else user_input.to_i.between?(1, 4)
+       true
     end
   end
 
@@ -113,7 +129,6 @@ class CLI
     puts "You got #{user.correct_answers_by_quiz(new_quiz).length} out of #{number_of_questions} questions right!"
     winning?
     binding.pry
-
   end
 
   def winning?
@@ -121,13 +136,14 @@ class CLI
   end
 
   def difficulty_stats(difficulty) #difficulty is a valid string of 'easy', 'medium', or 'hard' (DOWNCASE!!!)
-    quizzes_by_difficulty = Quiz.all.where(difficulty: difficulty)
+    quizzes_by_difficulty = Quiz.all.where(difficulty: difficulty, user_id: user.id)
     total_average = 0
     quizzes_by_difficulty.each do |quiz|
       average = @user.average_by_quiz(quiz)
       total_average += average
     end
     final_average = total_average / quizzes_by_difficulty.length
+    puts "Based on #{difficulty} quizzes, you have an average of #{final_average}%!"
   end
 
   def stats
