@@ -151,7 +151,9 @@ class CLI
     user_input = Adapter.query_user
     case user_input
     when "1"
-      puts user.total_average
+      if user.total_average >= 0
+        puts "Your total average over all quizzes is #{user.total_average}%!"
+      end
     when "2"
       difficulty_stats('easy')
       difficulty_stats('medium')
@@ -180,9 +182,12 @@ class CLI
       average = @user.average_by_quiz(quiz)
       total_average += average
     end
-    unless quizzes_by_difficulty.length == 0
+    if Adapter.check_for_zero?(quizzes_by_difficulty.length) != true
       final_average = total_average / quizzes_by_difficulty.length
       puts "Based on #{difficulty} quizzes, you have an average of #{final_average}%!"
+      return
+    else
+      puts "You haven't taken any quizzes of #{difficulty} difficulty!"
     end
   end
 
