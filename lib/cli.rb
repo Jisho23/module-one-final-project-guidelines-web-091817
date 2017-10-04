@@ -151,7 +151,6 @@ class CLI
     user_input = Adapter.query_user
     case user_input
     when "1"
-      binding.pry
       if user.total_average >= 0
         puts "Your total average over all quizzes is #{user.total_average}%!"
       end
