@@ -36,7 +36,7 @@ class CLI
   def delete_user
     puts "What user do you need to delete? Don't be an asshole. Only delete your own records"
     input = Adapter.query_user
-    puts "Hint: There is an Easter Egg"
+    puts "Hint: There is an Easter Egg. But where.....?"
     name_id_to_delete = User.find_by(name: input).id
     User.delete(name_id_to_delete)
     pick_user
