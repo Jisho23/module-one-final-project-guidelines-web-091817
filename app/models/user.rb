@@ -32,7 +32,6 @@ class User < ActiveRecord::Base
 # handy method to calculate the average of correct answers versus total answers
   def calculate_average(correct_answers, total_answers)
      #this is an average. uses floats to get decimals, *100 because thats what a percentage is, and converts to an integer. '%.2f' % to round the float off to 2 decimal places
-     binding.pry
     if Adapter.check_for_zero?(total_answers) == true
       puts "You haven't taken any quizzes!!!"
       return -1

@@ -178,19 +178,20 @@ class CLI
 
 
   def did_you_win
+    binding.pry
     correct_answers = user.correct_answers_by_quiz(new_quiz).length
     if  correct_answers == 0
       #  Images.dense
     elsif correct_answers == new_quiz.questions.length
       #  Images.badass
     end
-    binding.pry
     puts "You got #{correct_answers} out of #{number_of_questions} questions right!"
     winning?
   end
 
   def winning?
-    puts "All time, you've answered #{user.correct_answers.size} correct out of #{user.answers.length} total. That's #{user.total_average}%. That's...yeah. You know."
+    binding.pry
+    puts "All time, you've answered #{user.correct_answers.size} correct out of #{user.questions.length} total. That's #{user.total_average}%. That's...yeah. You know."
   end
 
   def difficulty_stats(difficulty) #difficulty is a valid string of 'easy', 'medium', or 'hard' (DOWNCASE!!!)

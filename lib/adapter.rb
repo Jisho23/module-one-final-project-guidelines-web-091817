@@ -29,6 +29,7 @@ URL = "https://opentdb.com/api.php?amount=1&type=multiple&difficulty="
     string = string.gsub(/&quot;/, "\"")
     string = string.gsub(/&#039;/, "\'")
     string = string.gsub(/&rsquo;/, "\'")
+    string = string.gsub(/&eacute;/,"\'")
   end
 
 end
