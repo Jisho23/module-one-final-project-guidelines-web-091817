@@ -3,7 +3,7 @@ class User_stats
   def self.leaderboard
     User.all.each do |user|
       if Adapter.check_for_zero?(user.answers.length) != true
-        puts "#{user.name}: #{user.correct_answers.length} correct answers. Average: %#{user.total_average}"
+        puts "#{user.name}: #{user.correct_answers.length} correct answers. Average: #{user.total_average}%"
       else
         puts "#{user.name} hasn't taken a quiz!"
       end

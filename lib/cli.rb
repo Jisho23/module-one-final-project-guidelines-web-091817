@@ -18,7 +18,6 @@ class CLI
     puts "Awesome! You chose difficulty #{difficulty}, with #{number_of_questions} questions."
     make_quiz(difficulty, number_of_questions)
     take_quiz
-    puts "Congratulations! Or, you know, not, if you failed hard."
     did_you_win
     choose_next_steps
   end
@@ -179,14 +178,13 @@ class CLI
 
 
   def did_you_win
-    user_answers = user.correct_answers_by_quiz(new_quiz)
     correct_answers = user.correct_answers_by_quiz(new_quiz).length
     if  correct_answers == 0
-      Images.dense
+       Images.dense
     elsif correct_answers == new_quiz.questions.length
-      Images.badass
+       Images.badass
     end
-    puts "You got #{user.correct_answers_by_quiz(new_quiz).length} out of #{number_of_questions} questions right!"
+    puts "You got #{correct_answers} out of #{number_of_questions} questions right!"
     winning?
   end
 
