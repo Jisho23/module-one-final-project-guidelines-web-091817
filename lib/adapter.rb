@@ -2,6 +2,7 @@ class Adapter
 URL = "https://opentdb.com/api.php?amount=1&type=multiple&difficulty="
   def self.quiz_api(difficulty)
       raw_data = RestClient.get("#{URL}#{difficulty}") #raw api data
+      JSON.parse(raw_data)["results"][0] #data as hash, only returning results (which is an array of hash hence [0])
       parsed_hash = JSON.parse(raw_data)["results"][0] #data as hash, only returning results (which is an array of hash hence [0])
       output = {}
       parsed_hash.each do |key, value|
