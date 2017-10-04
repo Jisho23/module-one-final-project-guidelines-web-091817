@@ -180,16 +180,17 @@ class CLI
   def did_you_win
     correct_answers = user.correct_answers_by_quiz(new_quiz).length
     if  correct_answers == 0
-       Images.dense
+      #  Images.dense
     elsif correct_answers == new_quiz.questions.length
-       Images.badass
+      #  Images.badass
     end
+    binding.pry
     puts "You got #{correct_answers} out of #{number_of_questions} questions right!"
     winning?
   end
 
   def winning?
-    puts "All time, you've answered #{user.correct_answers.size} correct out of #{user.answers.size} total. That's #{user.total_average}%. That's...yeah. You know."
+    puts "All time, you've answered #{user.correct_answers.size} correct out of #{user.answers.length} total. That's #{user.total_average}%. That's...yeah. You know."
   end
 
   def difficulty_stats(difficulty) #difficulty is a valid string of 'easy', 'medium', or 'hard' (DOWNCASE!!!)
@@ -199,7 +200,7 @@ class CLI
       average = @user.average_by_quiz(quiz)
       total_average += average
     end
-    if Adapter.check_for_zero?(quizzes_by_difficulty.length) != true
+    if Adapter.check_for_zero?(quizzes_by_difficulty.length) == false
       final_average = total_average / quizzes_by_difficulty.length
       puts "Based on #{difficulty} quizzes, you have an average of #{final_average}%!"
       return
