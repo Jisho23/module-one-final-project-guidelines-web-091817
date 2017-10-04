@@ -100,11 +100,7 @@ class CLI
       puts question.content
       question.display_answers
       puts "Time to choose... (1-4)"
-      valid_input = false
-      while valid_input == false
-        user_input = Adapter.query_user
-        valid_input = question_input_valid?(user_input)
-      end
+      user_input = question.get_users_answer
       question.stamp_answer_with_user_id(user_input, @user.id)
       #stamp answers with quiz id
     end

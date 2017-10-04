@@ -42,6 +42,24 @@ class Question < ActiveRecord::Base
     incorrect_answer.save
   end
 
+  def get_users_answer
+    while
+      user_input = Adapter.query_user #abtracted out gets.chomp
+      if valid_answer?(user_input) == false #checks below to make sure the input is a valid choice
+        puts "Really? The instructions aren't that cryptic."
+      else
+        break
+      end
+    end
+    return user_input.to_i
+  end
+
+  def valid_answer?(input)
+    unless input == '1' || input == '2' || input == '3' || input == '4' #max 4 questions, if they enter anything other than 1-4 numerically, gives error message above
+      return false
+    end
+    true
+  end
 
   def stamp_answer_with_user_id(user_answer, user_id)#stamps from 'take quiz' in CLI
     chosen_answer = self.answers.find_by(number_identifier: user_answer)

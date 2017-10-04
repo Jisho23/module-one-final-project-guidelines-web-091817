@@ -17,6 +17,7 @@ class Quiz < ActiveRecord::Base
   def create_questions_by_integer(num) #makes as many questions as input by the user in the CLI
     (num).times { create_question }
   end
+
 end
 
 #   def get_users_answer
