@@ -83,7 +83,6 @@ class CLI
     @new_quiz = Quiz.create
     new_quiz.user_id = @user.id
     new_quiz.difficulty = difficulty
-    new_quiz.save #ADDED THIS IN TO SAVE QUIZZES. user_id and difficulty werent getting kept otherwise (all nil)
     new_quiz.create_questions_by_integer(number_of_questions)
     new_quiz.questions.each do |question|
       question.user_id = user.id
@@ -115,11 +114,12 @@ class CLI
     correct_user_answers = all_user_answers.where(truthiness: true) #all correct answers
     percentage = (correct_user_answers.count.to_f/all_user_answers.count.to_f)*100 #percentage correct answers out of all answers
     puts "All time, you've answered #{correct_user_answers.count} correct out of #{all_user_answers.count} total. That's #{'%.2f' % percentage}%. That's...yeah. You know."
-    #the little douchebag '%.2F', with quotes, is how to round off a float to 2 decimal places.
+    #the little douchebag '%.2F' % , with quotes, is how to round off a float to 2 decimal places.
   end
 
-  def difficulty_stats(difficulty)
+  def difficulty_stats(difficulty) #these dont work, and I want them to.
     Quiz.all.where(difficulty: "#{difficulty.downcase}")
+    Quiz.all.where(difficulty: "medium", User.all.id: user_id) #Im trying to grab all quizs of a difficulty for a specific user.
     binding.pry
   end
 
