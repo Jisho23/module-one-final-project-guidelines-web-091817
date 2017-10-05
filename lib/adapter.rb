@@ -17,10 +17,10 @@ URL = "https://opentdb.com/api.php?amount=1&type=multiple&difficulty="
 
   def self.query_user #this is an easy call method for and query to user. Tests run in local object
     ARGV.clear
-    user_input = gets.chomp
+    user_input = gets.strip
     until user_input != ''
       puts "hur hur dur, enter something real"
-      user_input = gets.chomp
+      user_input = gets.strip
     end
     user_input
   end
@@ -33,6 +33,7 @@ URL = "https://opentdb.com/api.php?amount=1&type=multiple&difficulty="
     string = string.gsub(/&quot;/, "\"")
     string = string.gsub(/&#039;/, "\'")
     string = string.gsub(/&rsquo;/, "\'")
+    string = string.gsub(/&rdquo;/, "\"")
   end
 
 end

@@ -15,7 +15,7 @@ class CLI
     puts "Our trivia game is basically the best thing ever. Ever"
     difficulty = pick_difficulty #variable 'difficulty' to use in interpolation, method below modifies numerical input to easy/medium/hard
     @number_of_questions = pick_number_of_questions #ditto above, chooses how many questions the make_quiz.create_questions_by_integer method will iterate
-    puts "Awesome! You chose difficulty #{difficulty}, with #{number_of_questions} questions."
+    puts "\nAwesome! You chose difficulty #{difficulty}, with #{number_of_questions} questions."
     make_quiz(difficulty, number_of_questions)
     take_quiz
     did_you_win
@@ -196,8 +196,8 @@ class CLI
 
   def winning?
     binding.pry
-    User.all[self.user.id - 1].answers #user.answers was the local instance of the value, whereas user.correct_answer was querying the database for an updated result.
-    puts "All time, you've answered #{user.correct_answers.size} correct out of #{user.answers.size} total. That's #{user.total_average}%. That's...yeah. You know."
+    user_answers = Answer.all.where(user_id: self.user.id).length #user.answers was the local instance of the value, whereas user.correct_answer was querying the database for an updated result.
+    puts "All time, you've answered #{user.correct_answers.size} correct out of #{user_answers} total. That's #{user.total_average}%. That's...yeah. You know."
   end
 
   def difficulty_stats(difficulty) #difficulty is a valid string of 'easy', 'medium', or 'hard' (DOWNCASE!!!)
