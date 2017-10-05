@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
 
 #returns all correct answers by user instance (note: <user object>.answers will get ALL answers associate with user)
   def correct_answers
+    # binding.pry
     correct_answers = self.answers.where(truthiness: true) #for this current user instance (self), gets all the answers where the truthiness is true (set during question/answer creation)
   end
 
