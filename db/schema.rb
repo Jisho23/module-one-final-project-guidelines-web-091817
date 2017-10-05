@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 12) do
 
   create_table "answers", force: :cascade do |t|
-    t.string  "content"
+    t.string "content"
     t.integer "question_id"
     t.integer "user_id"
     t.boolean "truthiness"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 12) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.string  "content"
+    t.string "content"
     t.integer "quiz_id"
     t.integer "answer_id"
     t.integer "user_id"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 12) do
 
   create_table "quizzes", force: :cascade do |t|
     t.integer "user_id"
-    t.string  "difficulty"
+    t.string "difficulty"
   end
 
   create_table "users", force: :cascade do |t|

@@ -175,7 +175,7 @@ class CLI
 
   def user_stats
     puts "What stats would you like to see?"
-    puts "1. All time average. 2. Statistics by difficulty. 3. Back to Start"
+    puts "1. All time average. \n2. Statistics by difficulty. \n3. Back to Start"
     user_input = Helper.query_user
     case user_input
     when "1"
