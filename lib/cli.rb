@@ -1,4 +1,5 @@
 require 'pry'
+
 class CLI
   attr_accessor :new_quiz, :user, :number_of_questions
 
@@ -12,9 +13,9 @@ class CLI
 
 #main run program. takes in difficulty and number of questions from user, makes_quiz with those parameters, take_quiz gathering user answers, and displays ending results.
   def start_game
-    Adapter.create_space
+    Helper.create_space
     puts "Our trivia game is basically the best thing ever. Ever"
-    Adapter.create_space
+    Helper.create_space
     difficulty = pick_difficulty #variable 'difficulty' to use in interpolation, method below modifies numerical input to easy/medium/hard
     @number_of_questions = pick_number_of_questions #ditto above, chooses how many questions the make_quiz.create_questions_by_integer method will iterate
     puts "Awesome! You chose difficulty #{difficulty}, with #{number_of_questions} questions."
@@ -29,7 +30,7 @@ class CLI
     puts "Let's find your records, or make a new username for you."
     puts "If you need to remove a user, enter pi to 5 decimal places"
     puts "What's your name?"
-    input = Adapter.query_user
+    input = Helper.query_user
     if input == "3.14159"
       delete_user
     else
@@ -45,15 +46,15 @@ class CLI
 #delet user method. takes in a name, find the user.id associated with that name, and deletes it from the table. returns you to pick_user
   def delete_user
     puts "What user do you need to delete? Don't be an asshole. Only delete your own records"
-    input = Adapter.query_user
+    input = Helper.query_user
     puts "Hint: There are Easter Eggs. But where.....?"
     if User.find_by(name: input)
       binding.pry
       name_id_to_delete = User.find_by(name: input).id
       User.delete(name_id_to_delete)
     else
-      puts "That's not a valid user!\n"
-      Adapter.create_space
+      puts "That's not a valid user!"
+      Helper.create_space
     end
     pick_user
   end
@@ -67,7 +68,7 @@ class CLI
   def pick_difficulty
     while true #I wanted to call the function again if an improper inpiut was entered, but the while loop is better for functionality.
       puts "Please choose your difficulty: 1. Easy. 2. Medium. 3. Hard. 4. Exit"
-      difficulty_level = Adapter.query_user
+      difficulty_level = Helper.query_user
       case difficulty_level
       when "1"
         return "easy"
@@ -90,7 +91,7 @@ class CLI
   def pick_number_of_questions
     while true
       puts "How many questions would you like? (Enter a number, 1-20)"
-      number_of_questions = Adapter.query_user.to_i
+      number_of_questions = Helper.query_user.to_i
       if number_of_questions.between?(1,20)
         return number_of_questions
       else
@@ -115,10 +116,10 @@ class CLI
 #displays questions and answer choices, takes user input, sets user_id for question and answers to user.id
   def take_quiz
     @new_quiz.questions.each do |question|
-      Adapter.create_space
+      Helper.create_space
       puts question.content
       question.display_answers
-      Adapter.create_space
+      Helper.create_space
       puts "Time to choose... (1-4)"
       user_input = question.get_users_answer
       question.stamp_answer_with_user_id(user_input, @user.id)
@@ -148,7 +149,7 @@ class CLI
 #starting method after pick_user. This is the main screen for choosing options, and 'Back to start' elsewhere returns you here
   def choose_next_steps
     puts "What do you want to do? 1. PLAYGAMEPLAYGAMEPLAYGAME! 2. Check Stats. 3. Change User. 4. Check Leaderboard 5. Exit"
-    user_input = Adapter.query_user
+    user_input = Helper.query_user
     case user_input
     when "1"
       start_game
@@ -174,13 +175,13 @@ class CLI
   def user_stats
     puts "What stats would you like to see?"
     puts "1. All time average. 2. Statistics by difficulty. 3. Back to Start"
-    user_input = Adapter.query_user
+    user_input = Helper.query_user
     case user_input
     when "1"
       if user.total_average >= 0
-        Adapter.create_space
+        Helper.create_space
         puts "Your total average over all quizzes is #{user.total_average}%!"
-        Adapter.create_space
+        Helper.create_space
       end
     when "2"
       difficulty_stats('easy')
@@ -200,7 +201,7 @@ class CLI
     elsif correct_answers == new_quiz.questions.length
       Images.badass
     end
-    Adapter.create_space
+    Helper.create_space
     puts "You got #{correct_answers} out of #{number_of_questions} questions right!"
     winning?
   end
@@ -216,7 +217,7 @@ class CLI
       average = @user.average_by_quiz(quiz)
       total_average += average
     end
-    if Adapter.check_for_zero?(quizzes_by_difficulty.length) == false
+    if Helper.check_for_zero?(quizzes_by_difficulty.length) == false
       final_average = total_average / quizzes_by_difficulty.length
       puts "Based on #{difficulty} quizzes, you have an average of #{final_average}%!"
       return
