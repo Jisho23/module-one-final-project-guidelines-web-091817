@@ -5,6 +5,7 @@ class Quiz < ActiveRecord::Base
 
   #generate question objects that are associated to quiz by question_id
   def create_question
+    binding.pry
     question_hash = Adapter.quiz_api(difficulty) #use adapter method, with difficulty passes into the url as a variable, to gnerate a new list of questions.
     new_question = Question.new #make a new question instance
     new_question.save #save now so we can store the question's id in the answer by calling self.id

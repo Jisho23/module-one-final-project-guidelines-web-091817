@@ -94,6 +94,7 @@ class CLI
 
 #makes entire quiz here, stamps questions with the @user.id
   def make_quiz(difficulty, number_of_questions)
+    # binding.pry
     @new_quiz = Quiz.new
     new_quiz.user_id = @user.id
     new_quiz.difficulty = difficulty
