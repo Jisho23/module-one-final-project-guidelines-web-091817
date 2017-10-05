@@ -15,7 +15,7 @@ class CLI
     puts "Our trivia game is basically the best thing ever. Ever"
     difficulty = pick_difficulty #variable 'difficulty' to use in interpolation, method below modifies numerical input to easy/medium/hard
     @number_of_questions = pick_number_of_questions #ditto above, chooses how many questions the make_quiz.create_questions_by_integer method will iterate
-    puts "\nAwesome! You chose difficulty #{difficulty}, with #{number_of_questions} questions."
+    puts "Awesome! You chose difficulty #{difficulty}, with #{number_of_questions} questions."
     make_quiz(difficulty, number_of_questions)
     take_quiz
     did_you_win
@@ -97,12 +97,12 @@ class CLI
     @new_quiz = Quiz.new
     new_quiz.user_id = @user.id
     new_quiz.difficulty = difficulty
-    new_quiz.save
     new_quiz.create_questions_by_integer(number_of_questions)
     new_quiz.questions.each do |question|
       question.user_id = user.id
       question.save
     end
+    new_quiz.save
   end
 
 #displays questions and answer choices, takes user input, sets user_id for question and answers to user.id
@@ -184,19 +184,17 @@ class CLI
 
   def did_you_win
     correct_answers = user.correct_answers_by_quiz(new_quiz).length
-    # if  correct_answers == 0
-    #    Images.dense
-    # elsif correct_answers == new_quiz.questions.length
-    #    Images.badass
-    # end
-    # binding.pry
+    if correct_answers == 0
+      #  Images.dense
+    elsif correct_answers == new_quiz.questions.length
+      #  Images.badass
+    end
     puts "You got #{correct_answers} out of #{number_of_questions} questions right!"
     winning?
   end
 
   def winning?
-    binding.pry
-    user_answers = Answer.all.where(user_id: self.user.id).length #user.answers was the local instance of the value, whereas user.correct_answer was querying the database for an updated result.
+    user_answers = Answer.all.where(user_id: user.id).length #user.answers was the local instance of the value, whereas user.correct_answer was querying the database for an updated result.
     puts "All time, you've answered #{user.correct_answers.size} correct out of #{user_answers} total. That's #{user.total_average}%. That's...yeah. You know."
   end
 
@@ -207,7 +205,7 @@ class CLI
       average = @user.average_by_quiz(quiz)
       total_average += average
     end
-    if Adapter.check_for_zero?(quizzes_by_difficulty.length) != true
+    if Adapter.check_for_zero?(quizzes_by_difficulty.length) == false
       final_average = total_average / quizzes_by_difficulty.length
       puts "Based on #{difficulty} quizzes, you have an average of #{final_average}%!"
       return
