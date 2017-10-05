@@ -49,7 +49,6 @@ class CLI
     input = Helper.query_user
     puts "Hint: There are Easter Eggs. But where.....?"
     if User.find_by(name: input)
-      binding.pry
       name_id_to_delete = User.find_by(name: input).id
       User.delete(name_id_to_delete)
     else
