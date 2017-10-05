@@ -40,9 +40,14 @@ class CLI
   def delete_user
     puts "What user do you need to delete? Don't be an asshole. Only delete your own records"
     input = Adapter.query_user
-    puts "Hint: There are Easter Eggs. But where.....?"
-    name_id_to_delete = User.find_by(name: input).id
-    User.delete(name_id_to_delete)
+    puts "(Hint: There are Easter Eggs. But where.....?)"
+    if User.find_by(name: input)
+      name_id_to_delete = User.find_by(name: input).id
+      User.delete(name_id_to_delete)
+    else
+      puts "That name wasn't found"
+      puts ""
+    end
     pick_user
   end
 
@@ -89,7 +94,7 @@ class CLI
 
 #makes entire quiz here, stamps questions with the @user.id
   def make_quiz(difficulty, number_of_questions)
-    @new_quiz = Quiz.create
+    @new_quiz = Quiz.new
     new_quiz.user_id = @user.id
     new_quiz.difficulty = difficulty
     new_quiz.create_questions_by_integer(number_of_questions)
@@ -150,7 +155,7 @@ class CLI
     when "6"
       puts "I AM A BANANA"
     when "7"
-      Images.treestar
+      # Images.treestar
     else
       puts "Not an option, please pick again"
     end
@@ -179,7 +184,7 @@ class CLI
 
   def did_you_win
     correct_answers = user.correct_answers_by_quiz(new_quiz).length
-    if  correct_answers == 0
+    if correct_answers == 0
       #  Images.dense
     elsif correct_answers == new_quiz.questions.length
       #  Images.badass
@@ -189,7 +194,8 @@ class CLI
   end
 
   def winning?
-    puts "All time, you've answered #{user.correct_answers.size} correct out of #{Answer.all.where(user_id: user.id).size} total. That's #{user.total_average}%. That's...yeah. You know."
+    user_answers = Answer.all.where(user_id: user.id).length #user.answers was the local instance of the value, whereas user.correct_answer was querying the database for an updated result.
+    puts "All time, you've answered #{user.correct_answers.size} correct out of #{user_answers} total. That's #{user.total_average}%. That's...yeah. You know."
   end
 
   def difficulty_stats(difficulty) #difficulty is a valid string of 'easy', 'medium', or 'hard' (DOWNCASE!!!)

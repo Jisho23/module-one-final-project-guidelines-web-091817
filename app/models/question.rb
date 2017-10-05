@@ -44,7 +44,7 @@ class Question < ActiveRecord::Base
 
   def get_users_answer
     while
-      user_input = Adapter.query_user #abtracted out gets.chomp
+      user_input = Adapter.query_user #abstracted out gets.chomp
       if valid_answer?(user_input) == false #checks below to make sure the input is a valid choice
         puts "Really? The instructions aren't that cryptic. Input 1-4."
       else
@@ -65,6 +65,7 @@ class Question < ActiveRecord::Base
     chosen_answer = self.answers.find_by(number_identifier: user_answer)
     chosen_answer.user_id = user_id
     chosen_answer.save
+    # binding.pry
     if chosen_answer.right_or_wrong == false #checks if the answer was right or wrong (called on answer choice) then shows right answer for the question (called on self)
       self.show_right_answer
     end
