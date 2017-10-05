@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
 #generates the average correct answers over ALL quizzes
   def total_average #gets correct answers array length, all answers array length, passes them into caluculate_average method, and returns average
     correct_answers = self.correct_answers.length #length of correct_answers array for this user instance
-    all_answers = self.answers.length #length of all answers array for this user instance
+    all_answers = Answer.all.where(user_id: self).length #length of all answers array for this user instance
     average = calculate_average(correct_answers, all_answers) #uses calculate average method below to get average percentage of questions answerted correctly
 
   end

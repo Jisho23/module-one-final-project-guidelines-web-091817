@@ -92,12 +92,12 @@ class CLI
     @new_quiz = Quiz.create
     new_quiz.user_id = @user.id
     new_quiz.difficulty = difficulty
-    new_quiz.save
     new_quiz.create_questions_by_integer(number_of_questions)
     new_quiz.questions.each do |question|
       question.user_id = user.id
       question.save
     end
+    new_quiz.save
   end
 
 #displays questions and answer choices, takes user input, sets user_id for question and answers to user.id
@@ -178,7 +178,6 @@ class CLI
 
 
   def did_you_win
-    binding.pry
     correct_answers = user.correct_answers_by_quiz(new_quiz).length
     if  correct_answers == 0
       #  Images.dense
@@ -190,8 +189,7 @@ class CLI
   end
 
   def winning?
-    binding.pry
-    puts "All time, you've answered #{user.correct_answers.size} correct out of #{user.questions.length} total. That's #{user.total_average}%. That's...yeah. You know."
+    puts "All time, you've answered #{user.correct_answers.size} correct out of #{Answer.all.where(user_id: user.id).size} total. That's #{user.total_average}%. That's...yeah. You know."
   end
 
   def difficulty_stats(difficulty) #difficulty is a valid string of 'easy', 'medium', or 'hard' (DOWNCASE!!!)
