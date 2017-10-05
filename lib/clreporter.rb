@@ -1,33 +1,59 @@
-require 'command_line_reporter'
-require 'colorize'
-require 'colorized_string'
+# require 'command_line_reporter'
+# require 'colorize'
 
-class Example
-  include CommandLineReporter
+class Table
+  extend CommandLineReporter
 
-  def run
-    suppress_output
-
-    table border: true do
-      row do
-        column 'MY NAME IS REALLY LONG AND WILL WRAP AND HOPE', width: 20, align: 'center', color: 'blue'
-        column 'ADDRESS', width: 30, padding: 5
-        column 'CITY', width: 15
-      end
-      row bold: true do
-        column 'caeser'
-        column '1 Appian Way'
-        column 'Rome'
-      end
-      row do
-        column 'Richard Feynman'
-        column '1 Golden Gate'
-        column 'Quantum Field'
-      end
-    end
-
-    return capture_output
+  def self.title
   end
+
+  def self.display_text_box(text)
+     table border: true do
+       row color: 'magenta' do
+         column "#{text}", width: text.length, align: 'left'
+       end
+     end
+   end
+
+   def self.display_quiz_score(correct_answers, number_of_questions)
+     table border: true do
+       row color: 'red' do
+         column 'Correct Answers', width: 35, align: 'center'
+         column 'Number of Questions', width: 35, align: 'center'
+       end
+       row color: 'red' do
+         column "#{correct_answers}", width: 35, align: 'center', color: 'cyan'
+         column "#{number_of_questions}", width: 35, align: 'center', color: 'cyan'
+       end
+     end
+   end
+
+   def self.display_average_by_difficulty(difficulty, average)
+     table border: true do
+       row color: 'red' do
+         column "#{difficulty.capitalize} Quizzes", width: 50, align: 'center', color: 'cyan'
+         column "#{average}%", width: 30, align: 'center', color: 'cyan'
+       end
+     end
+   end
+
+   def self.leader_board_table(stats)
+     table border: true do
+       row color: 'red' do
+         column "User", width: 35
+         column "Correct Answers", width: 35
+         column "Average", width: 35
+       end
+       stats.each do |hash|
+          row do
+            column "#{hash[:name]}"
+            column "#{hash[:correct_answers]}"
+            column "#{hash[:average]}"
+          end
+       end
+     end
+   end
+
 end
 
-FORMAT = Example.new
+# FORMAT = Example.new

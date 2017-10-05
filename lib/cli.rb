@@ -1,4 +1,4 @@
-require 'pry'
+# require 'pry'
 
 class CLI
   attr_accessor :new_quiz, :user, :number_of_questions
@@ -117,7 +117,7 @@ class CLI
   def take_quiz
     @new_quiz.questions.each do |question|
       Helper.create_space
-      puts question.content
+      Table.display_text_box(question.content)
       question.display_answers
       Helper.create_space
       puts "Time to choose... (1-4)"
@@ -148,7 +148,8 @@ class CLI
 
 #starting method after pick_user. This is the main screen for choosing options, and 'Back to start' elsewhere returns you here
   def choose_next_steps
-    puts "What do you want to do? 1. PLAYGAMEPLAYGAMEPLAYGAME! 2. Check Stats. 3. Change User. 4. Check Leaderboard 5. Exit"
+    Helper.create_space
+    puts "What do you want to do? \n1. PLAYGAMEPLAYGAMEPLAYGAME! \n2. Check Stats. \n3. Change User. \n4. Check Leaderboard \n5. Exit"
     user_input = Helper.query_user
     case user_input
     when "1"
@@ -197,17 +198,18 @@ class CLI
   def did_you_win
     correct_answers = user.correct_answers_by_quiz(new_quiz).length
     if  correct_answers == 0
-      #  Images.dense
+       Images.dense
     elsif correct_answers == new_quiz.questions.length
       Images.badass
     end
     Helper.create_space
-    puts "You got #{correct_answers} out of #{number_of_questions} questions right!"
+    Table.display_quiz_score(correct_answers, number_of_questions)
+    # puts "You got #{correct_answers} out of #{number_of_questions} questions right!"
     winning?
   end
 
   def winning?
-    puts "All time, you've answered #{user.correct_answers.size} correct out of #{Answer.all.where(user_id: user.id).size} total. That's #{user.total_average}%. That's...yeah. You know."
+    puts "All time, you've answered #{user.correct_answers.size} correct out of #{Answer.all.where(user_id: user.id).size} total.\n That's #{user.total_average}%.\n That's...yeah. You know."
   end
 
   def difficulty_stats(difficulty) #difficulty is a valid string of 'easy', 'medium', or 'hard' (DOWNCASE!!!)
@@ -219,7 +221,8 @@ class CLI
     end
     if Helper.check_for_zero?(quizzes_by_difficulty.length) == false
       final_average = total_average / quizzes_by_difficulty.length
-      puts "Based on #{difficulty} quizzes, you have an average of #{final_average}%!"
+      Table.display_average_by_difficulty(difficulty, final_average)
+      # puts "Based on #{difficulty} quizzes, you have an average of #{final_average}%!"
       return
     else
       puts "You haven't taken any quizzes of #{difficulty} difficulty!"
