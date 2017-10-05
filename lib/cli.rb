@@ -12,7 +12,9 @@ class CLI
 
 #main run program. takes in difficulty and number of questions from user, makes_quiz with those parameters, take_quiz gathering user answers, and displays ending results.
   def start_game
+    Adapter.create_space
     puts "Our trivia game is basically the best thing ever. Ever"
+    Adapter.create_space
     difficulty = pick_difficulty #variable 'difficulty' to use in interpolation, method below modifies numerical input to easy/medium/hard
     @number_of_questions = pick_number_of_questions #ditto above, chooses how many questions the make_quiz.create_questions_by_integer method will iterate
     puts "Awesome! You chose difficulty #{difficulty}, with #{number_of_questions} questions."
@@ -31,7 +33,11 @@ class CLI
     if input == "3.14159"
       delete_user
     else
-      @user = find_or_create_by(input)
+      # binding.pry
+      # if User.find_by(name: input) == true
+      #   puts "Welcome back, #{input}!"
+      # end
+      @user = User.find_or_create_by(name: input)
     end
     choose_next_steps
   end
@@ -41,15 +47,21 @@ class CLI
     puts "What user do you need to delete? Don't be an asshole. Only delete your own records"
     input = Adapter.query_user
     puts "Hint: There are Easter Eggs. But where.....?"
-    name_id_to_delete = User.find_by(name: input).id
-    User.delete(name_id_to_delete)
+    if User.find_by(name: input)
+      binding.pry
+      name_id_to_delete = User.find_by(name: input).id
+      User.delete(name_id_to_delete)
+    else
+      puts "That's not a valid user!\n"
+      Adapter.create_space
+    end
     pick_user
   end
 
 #finds a user from the table by name, or creates a new one if none found.
-  def find_or_create_by(name)
-    User.find_or_create_by(name: name)
-  end
+  # def find_or_create_by(name)
+  #   User.find_or_create_by(name: name)
+  # end
 
 #Chooses difficulty for the quiz being made. Exit removes you from the game.
   def pick_difficulty
@@ -103,8 +115,10 @@ class CLI
 #displays questions and answer choices, takes user input, sets user_id for question and answers to user.id
   def take_quiz
     @new_quiz.questions.each do |question|
+      Adapter.create_space
       puts question.content
       question.display_answers
+      Adapter.create_space
       puts "Time to choose... (1-4)"
       user_input = question.get_users_answer
       question.stamp_answer_with_user_id(user_input, @user.id)
@@ -164,7 +178,9 @@ class CLI
     case user_input
     when "1"
       if user.total_average >= 0
+        Adapter.create_space
         puts "Your total average over all quizzes is #{user.total_average}%!"
+        Adapter.create_space
       end
     when "2"
       difficulty_stats('easy')
@@ -182,8 +198,9 @@ class CLI
     if  correct_answers == 0
       #  Images.dense
     elsif correct_answers == new_quiz.questions.length
-      #  Images.badass
+      Images.badass
     end
+    Adapter.create_space
     puts "You got #{correct_answers} out of #{number_of_questions} questions right!"
     winning?
   end

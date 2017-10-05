@@ -73,7 +73,9 @@ class Question < ActiveRecord::Base
 # simple method that shows the right answer, called on a question object
   def show_right_answer
     correct_answer = self.answers.find_by(truthiness: true)
+    Adapter.create_space
     puts "For reference the right answer was #{correct_answer.content}... dummy!"
+    Adapter.create_space
   end
 
 end
