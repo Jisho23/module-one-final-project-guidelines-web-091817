@@ -7,7 +7,7 @@ gem "pry"
 gem "require_all"
 gem "rest-client"
 gem "json"
-gem "colorize"
 gem "tco"
 gem "rmagick"
 gem "catpix"
+gem 'command_line_reporter', '>=3.0'
