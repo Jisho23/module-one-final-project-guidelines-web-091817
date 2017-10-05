@@ -44,7 +44,7 @@ class Question < ActiveRecord::Base
 
   def get_users_answer
     while
-      user_input = Adapter.query_user #abtracted out gets.chomp
+      user_input = Helper.query_user #abtracted out gets.chomp
       if valid_answer?(user_input) == false #checks below to make sure the input is a valid choice
         puts "Really? The instructions aren't that cryptic. Input 1-4."
       else
@@ -73,9 +73,9 @@ class Question < ActiveRecord::Base
 # simple method that shows the right answer, called on a question object
   def show_right_answer
     correct_answer = self.answers.find_by(truthiness: true)
-    Adapter.create_space
+    Helper.create_space
     puts "For reference the right answer was #{correct_answer.content}... dummy!"
-    Adapter.create_space
+    Helper.create_space
   end
 
 end
