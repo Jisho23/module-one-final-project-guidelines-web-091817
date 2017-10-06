@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 12) do
+ActiveRecord::Schema.define(version: 13) do
 
   create_table "answers", force: :cascade do |t|
     t.string "content"
@@ -24,7 +24,6 @@ ActiveRecord::Schema.define(version: 12) do
   create_table "questions", force: :cascade do |t|
     t.string "content"
     t.integer "quiz_id"
-    t.integer "answer_id"
     t.integer "user_id"
   end
 
