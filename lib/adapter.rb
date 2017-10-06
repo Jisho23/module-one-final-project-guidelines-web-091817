@@ -2,12 +2,12 @@ class Adapter
 URL = "https://opentdb.com/api.php?amount=1&type=multiple&difficulty="
   def self.quiz_api(difficulty)
       raw_data = RestClient.get("#{URL}#{difficulty}") #raw api data
-      JSON.parse(raw_data)["results"][0] #data as hash, only returning results (which is an array of hash hence [0])
+      # JSON.parse(raw_data)["results"][0] #data as hash, only returning results (which is an array of hash hence [0])
       parsed_hash = JSON.parse(raw_data)["results"][0] #data as hash, only returning results (which is an array of hash hence [0])
-      output = {}
+      # output = {}
       parsed_hash.each do |key, value|
         if value.is_a? Array
-          value.each_with_index do |element, index|
+          value.each_with_index do |element, index| #each_with_index uneccessary, only needs to be .each |element|, and element = Adapter.delete_quotes(element), but this way also works.
             parsed_hash[key][index] = Adapter.delete_quotes(element)
           end
         else

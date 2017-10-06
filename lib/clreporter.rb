@@ -48,7 +48,7 @@ class Table
           row do
             column "#{hash[:name]}"
             column "#{hash[:correct_answers]}"
-            column "#{hash[:average]}"
+            column "#{hash[:average]}%"
           end
        end
      end
